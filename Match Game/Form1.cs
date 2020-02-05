@@ -76,7 +76,36 @@ namespace Match_Game
 
                     return;
                 }
+
+                //If the player gets this far, the timer isn't running and 
+                //firstClicked isn't null, so this must be a second icon the player
+                //clicked, set its color to black
+                secondClicked = clickedLabel;
+                secondClicked.ForeColor = Color.Black;
+
+                //If the player gets this far, the player clicked two different
+                //icons, so start the timer (which will wait three quarters of 
+                //second, and then hide the icons)
+                timer1.Start();
             }
+        }
+
+        //This timer is started when the player clicks two icons that don't match,
+        //so it counts three quarters of a second and then turns itself off and hides
+        //both icons
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            //Stop the timer
+            timer1.Stop();
+
+            //Hide both icons
+            firstClicked.ForeColor = firstClicked.BackColor;
+            secondClicked.ForeColor = secondClicked.BackColor;
+
+            //Reset firstClicked and secondClicked so the next time a label is clicked,
+            //the program knws it's the first click
+            firstClicked = null;
+            secondClicked = null;
         }
     }
 }
