@@ -83,6 +83,19 @@ namespace Match_Game
                 secondClicked = clickedLabel;
                 secondClicked.ForeColor = Color.Black;
 
+                //Check to see if the player won
+                CheckForWinner();
+
+                //If the player clicked two matching icons, keep them black
+                //and reset firstClicked and secondClicked so the player can 
+                //click another icon
+                if (firstClicked.Text == secondClicked.Text)
+                {
+                    firstClicked = null;
+                    secondClicked = null;
+                    return;
+                }
+
                 //If the player gets this far, the player clicked two different
                 //icons, so start the timer (which will wait three quarters of 
                 //second, and then hide the icons)
@@ -106,6 +119,27 @@ namespace Match_Game
             //the program knws it's the first click
             firstClicked = null;
             secondClicked = null;
+        }
+
+        //Check every icon to see if it is matched, by comparing its foreground
+        //color to its background color. If all of the icons are matched, the player wins
+        private void CheckForWinner()
+        {
+            foreach (Control control in tableLayoutPanel1.Controls)
+            {
+                Label iconLabel = control as Label;
+
+                if (iconLabel != null)
+                {
+                    if (iconLabel.ForeColor == iconLabel.BackColor)
+                        return;
+                }
+            }
+
+            //If the loop didn't return, it didn't find any unmatched icons
+            //That means the user won. Show a message and close the form
+            MessageBox.Show("You matched all the icons!", "Congratulations");
+            Close();
         }
     }
 }
